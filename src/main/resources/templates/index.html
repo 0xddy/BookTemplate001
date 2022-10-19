@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head th:include="inc/header::head('烽火小说网_无弹窗书友最值得收藏的网络小说阅读网','烽火小说网,烽火中文网,免费小说阅读,全本小说下载','《烽火小说网》提供免费全本小说阅读,是最值得收藏的网络小说阅读网站')"></head>
+
+<body th:with="Collections=${T(kotlin.collections.CollectionsKt)}">
+
+<div class="topbar">
+    <div class="row">
+        <h1>烽火小说网</h1>
+    </div>
+</div>
+<!-- 分类 -->
+<div class="nav">
+    <ul>
+        <li th:each="category,categoryStat:${multiCategory}">
+            <a th:href="'/category/'+${category.id}+'_1.html'">
+                <span th:text="${category.name}"></span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- 广告位 -->
+<div class="left_ad"></div>
+<div class="right_ad"></div>
+<!-- end -->
+
+<!-- content list -->
+<div class="row">
+    <div class="wrapper">
+
+        <div th:include="inc/search::search(${keyword})"></div>
+
+        <div class="box">
+            <h2 class="title">
+                <span>推荐小说</span>
+            </h2>
+            <ul class="list2"
+                th:with="topBooks=${bookService.getTopBook(Collections.listOf(548933,140060,150821,164604,343530,141916))}">
+                <li th:each="topBook,bookStat:${topBooks}">
+                    <a th:href="'/book/'+${topBook.id}+'.html'"
+                       th:text="${topBook.name}"></a>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="c3">
+            <div class="box"
+                 th:with="topBooks=${bookService.getTopBook(Collections.listOf(110258,141916,546027,104578,342323,109438,111334))}">
+
+                <div th:include="item::indexItem('玄幻/奇幻',${topBooks})"></div>
+            </div>
+        </div>
+
+        <div class="c3">
+            <div class="box"
+                 th:with="topBooks=${bookService.getTopBook(Collections.listOf(548933,422222,68252,53541,31263,67746,249086))}">
+
+                <div th:include="item::indexItem('都市/言情',${topBooks})"></div>
+            </div>
+        </div>
+
+        <div class="c3">
+            <div class="box"
+                 th:with="topBooks=${bookService.getTopBook(Collections.listOf(302731,298967,514015,327871,302635,342323,393381))}">
+                <div th:include="item::indexItem('修真/武侠',${topBooks})"></div>
+            </div>
+        </div>
+        <div class="c3">
+            <div class="box"
+                 th:with="topBooks=${bookService.getTopBook(Collections.listOf(412421,411205,411314,150839,421892,427933,413271))}">
+                <div th:include="item::indexItem('游戏竞技',${topBooks})"></div>
+            </div>
+        </div>
+        <div class="c3">
+            <div class="box"
+                 th:with="topBooks=${bookService.getTopBook(Collections.listOf(150821,139253,164604,140060,365921,320059,519043))}">
+                <div th:include="item::indexItem('科幻/灵异',${topBooks})"></div>
+            </div>
+        </div>
+        <div class="c3">
+            <div class="box"
+                 th:with="topBooks=${bookService.getTopBook(Collections.listOf(132006,212212,226609,548255,548195,548129,548132))}">
+                <div th:include="item::indexItem('穿越/重生',${topBooks})"></div>
+            </div>
+        </div>
+        <div class="c"></div>
+        <div class="box" th:include="inc/link"></div>
+    </div>
+</div>
+
+<div th:include="inc/footer::footer"></div>
+
+</body>
+</html>

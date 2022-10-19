@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+      th:with="title=${readerChapter.name}+' - '+${book.name}+'最新章节 - 烽火中文网' ,
+      keywords=${readerChapter.name}+','+${book.name}+'最新章节,'+${book.name}+'免费阅读,烽火中文网' ,
+      description='小说'+${book.name}+'的作者是'+${book.author}+',内容讲的是'+${book.intro}">
+
+<head th:include="inc/header::head(${title},${keywords},${description})"></head>
+
+<body>
+<div class="topbar">
+    <div class="row">
+        <span th:text="${book.name}"></span>
+    </div>
+</div>
+<div class="breadcrumb">
+    <div class="row"><a href="/">首页</a>›<a th:href="'/category/'+${book.categoryId}+'_1.html'"
+                                           th:text="${book.category.name}"></a>›《<a
+            th:href="'/book/'+${book.id}+'.html'" th:text="${book.name}"><%= book.name %></a>》›阅读
+    </div>
+</div>
+<div class="row">
+    <div class="wrapper">
+
+        <div th:include="inc/search::search(${keyword})"></div>
+
+        <div class="content">
+            <div class="p10 tc">
+                字体:
+                <a href="javascript:changefs('16')" class="button">16</a>
+                <a href="javascript:changefs('+')" class="button">+</a>
+                <a href="javascript:changefs('-')" class="button">-</a>
+            </div>
+            <h1 class="title1" th:text="${readerChapter.name}"></h1>
+            <div id="ads_auto"></div>
+            <div id="content" th:utext="${kts.unzip(readerChapter.content)}">
+            </div>
+            <div class="nlist_page">
+
+                <p id="page_last"
+                   th:class="${prevChapter == null ? 'page_last grey' : 'page_last'}">
+                    <span th:if="${prevChapter == null}">上一章</span>
+                    <a th:if="${prevChapter != null}" th:href="'/read/'+${book.id}+'/'+${prevChapter.id}+'.html'"
+                       rel="next">上一章</a>
+                </p>
+
+                <p id="page_dir" class="page_dir">
+                    <span id="cur_page" class="cur_page">
+                        <a th:href="'/book/'+${book.id}+'.html'" rel="contents">目录</a>
+                    </span>
+                </p>
+
+                <p id="page_next"
+                   th:class="${nextChapter == null ? 'page_next grey' : 'page_next'}">
+                    <span th:if="${nextChapter == null}">下一章</span>
+                    <a th:if="${nextChapter != null}" th:href="'/read/'+${book.id}+'/'+${nextChapter.id}+'.html'"
+                       rel="next">下一章</a>
+                </p>
+
+            </div>
+        </div>
+        <div class="c"></div>
+    </div>
+</div>
+<div class="c pt5"></div>
+<script type="text/javascript">
+    document.getElementById('content').style.fontSize = 16 + "px";
+
+    function changefs(size) {
+        if (size === '+') {
+            let u = document.getElementById('content').style.fontSize;
+            let a = u.match(/\d/g).join("");
+            let fpx = parseInt(a) + 1;
+            document.getElementById('content').style.fontSize = fpx + "px";
+        } else if (size === '-') {
+            let u = document.getElementById('content').style.fontSize;
+            let a = u.match(/\d/g).join("");
+            let fpx = parseInt(a) - 1;
+            document.getElementById('content').style.fontSize = fpx + "px";
+        } else {
+            document.getElementById('content').style.fontSize = size + "px";
+        }
+    }
+</script>
+
+<div th:include="inc/footer::footer"></div>
+<!--<script src="/public/js/read.min.js?v=<%= global.version %>"></script>-->
+</body>
+</html>

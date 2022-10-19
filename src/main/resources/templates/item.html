@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org" >
+    <div th:fragment="indexItem(title,books)">
+        <h2 class="title">
+            <span th:text="${title}"></span>
+        </h2>
+        <div class="pic_txt_list" th:with="firstBook=${books.get(0)}">
+            <div class="pic">
+                <img class="lazyload" th:data-src="${firstBook.thumb}" src="/images/holder.jpg"  onerror="bindImage(this)"
+                     th:alt="${firstBook.name}">
+            </div>
+            <h3>
+                <a th:href="'/book/'+${firstBook.id}+'.html'">
+                    <span th:text="${firstBook.name}"></span>
+                </a></h3>
+            <p class="info">作者: <span th:text="${firstBook.author}"></span></p>
+            <p class="description">
+                <span class="read_ico">简</span>
+                <span th:text="${firstBook.intro}"></span>
+            </p>
+        </div>
+        <ul class="list">
+
+            <li th:each="topBook,bookStat:${books}" th:if="${bookStat.index>0}">
+                <a th:href="'/book/'+${topBook.id}+'.html'">
+                    <span th:text="${topBook.name}"></span>
+                </a>
+                <span class="author" th:text="${topBook.author}"></span>
+            </li>
+        </ul>
+        <div class="c"></div>
+    </div>
+</html>

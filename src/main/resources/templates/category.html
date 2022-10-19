@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      th:with="title=${currentCategory.name}+'小说列表 - 烽火中文网' ,
+      keywords=${currentCategory.name}+'小说,烽火中文网' ,
+      description='烽火中文网,'+${currentCategory.name}+',第'+${currentCategory.name}+'页'">
+
+<head th:include="inc/header::head(${title},${keywords},${description})"></head>
+
+<body>
+<div class="topbar">
+    <div class="row">
+        <a href="/" class="button l">首页</a>
+        <h1>烽火中文网</h1>
+    </div>
+</div>
+<div class="nav">
+
+    <ul>
+        <li th:each="category,categoryStat:${multiCategory}" th:class="${category.id==currentCategory.id?'current':''}">
+            <a th:href="'/category/'+${category.id}+'_1.html'">
+                <span th:text="${category.name}"></span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <div class="wrapper" th:with="books=${content.records}">
+
+        <div th:include="inc/search::search(${keyword})"></div>
+
+
+        <div class="c3" th:each="book,bookStat:${books}">
+            <div class="box">
+                <div class="pic_txt_list">
+                    <div class="pic">
+                        <img src="/images/holder.jpg"
+                             onerror="bindImage(this)"
+                             class="lazyload"
+                             th:data-src="${book.thumb}"
+                             th:alt="${book.name}"/>
+                    </div>
+                    <h3><a th:href="'/book/'+${book.id}+'.html'"><span th:text="${book.name}"></span></a></h3>
+                    <p class="info">作者: <span class="author" th:text="${book.author}"></span></p>
+                    <p class="description">
+                        <span class="read_ico">简</span>
+                        <span th:text="${#strings.isEmpty(book.intro)?'暂无简介' : book.intro}"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="c"></div>
+    </div>
+    <div class="nlist_page"
+         th:with="hasNext=${content.hasNext()},hasPrev=${content.hasPrevious()},currPage=${content.getCurrent()},countPage=${content.pages}">
+
+        <p class="page_last" th:if="${hasPrev}">
+            <a th:href="'/category/'+${currentCategory.id}+'_'+(${currPage}-1)+'.html'" rel="prev">上一页</a>
+        </p>
+
+        <p class="page_last grey" th:if="${!hasPrev}">
+            上一页
+        </p>
+
+        <p class="page_dir grey">
+            <span class="cur_page" th:text="${currPage}+' / '+${countPage}"></span>
+        </p>
+
+        <p class="page_next" th:if="${hasNext}">
+            <a  th:href="'/category/'+${currentCategory.id}+'_'+(${currPage}+1)+'.html'" rel="next">下一页</a>
+        </p>
+
+        <p class="page_next grey" th:if="${!hasNext}">
+            下一页
+        </p>
+
+    </div>
+</div>
+
+<div th:include="inc/footer::footer"></div>
+
+</body>
+</html>

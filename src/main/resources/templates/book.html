@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+      th:with="title=${book.name}+'最新章节阅读 - 烽火中文网' ,
+      keywords=${book.name}+','+${book.name}+'最新章节,'+${book.name}+'免费阅读,烽火中文网' ,
+      description='小说'+${book.name}+'的作者是'+${book.author}+',内容讲的是'+${book.intro}">
+
+<head th:include="inc/header::head(${title},${keywords},${description})"></head>
+
+
+<body>
+<div class="topbar">
+    <div class="row">
+        <h1 th:text="${book.name}"></h1>
+    </div>
+</div>
+<div class="breadcrumb">
+    <div class="row"><a href="/">首页</a>›<a th:href="'/category/'+${book.categoryId}+'_1.html'"
+                                                th:text="${category.name}"></a>›《<a
+            th:href="'/book/'+${book.id}+'.html'" th:text="${book.name}"><%= book.name %></a>》›目录
+    </div>
+</div>
+<div class="row">
+    <div class="wrapper">
+
+        <div th:include="inc/search::search(${keyword})"></div>
+
+        <div class="box">
+            <h2 class="title"><span>书籍</span></h2>
+            <div class="pic_txt_list">
+                <div class="pic">
+                    <img src="/images/holder.jpg" class="lazyload" onerror="bindImage(this)"
+                                      th:data-src="${book.thumb}" th:alt="${book.name}"/>
+                </div>
+                <h3><span th:text="${book.name}"></span></h3>
+                <p class="info">作者: <span class="author" th:text="${book.author}"></span></p>
+                <p class="info">类别: <span th:text="${category.name}"></span></p>
+                <p class="info">状态: <span th:text="${book.status!=2?'连载':'完结'}"></span></p>
+            </div>
+            <p class="description" th:text="'&nbsp;&nbsp;&nbsp;&nbsp;'+${book.intro.trim()}"></p>
+        </div>
+        <div class="box">
+            <h2 class="title"><span>正文章节</span></h2>
+            <ul class="list">
+
+                <li class="c3" th:each="chapter,chapterStat:${chapters}">
+                    <a th:href="'/read/'+${chapter.bookId}+'/'+${chapter.id}+'.html'"><span th:text="${chapter.name}"></span></a>
+                </li>
+            </ul>
+            <div class="c"></div>
+        </div>
+
+        <div class="c"></div>
+    </div>
+</div>
+<div class="c pt5"></div>
+
+<div th:include="inc/footer::footer"></div>
+
+</body>
+</html>
