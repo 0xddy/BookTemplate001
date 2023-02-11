@@ -47,7 +47,6 @@ class IndexController {
 
     @GetMapping("/search")
     fun search(keyword: String, @RequestParam(defaultValue = "1") page: Int, model: Model): String {
-
         val pageDTO = bookService.queryBooksByKeyword(keyword, Page<DbStoreBook>(page.toLong(), 18)) as Page
 
         if (pageDTO.total == 1L) {
@@ -82,17 +81,9 @@ class IndexController {
         model.addAttribute("chapters", chapters)
         model.addAttribute("book", book)
         model.addAttribute("category", category)
+        model.addAttribute("bookService", bookService)
 
         return "book"
-    }
-
-
-    @GetMapping("/test")
-    @ResponseBody
-    fun test():Any{
-        // data is null
-        println(chapterService.iChapterService.getById(771489998674329601))
-        return "aa"
     }
 
 }

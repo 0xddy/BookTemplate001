@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+<html lang="ch" xmlns:th="http://www.thymeleaf.org"
       th:with="title=${book.name}+'最新章节阅读 - 烽火中文网' ,
       keywords=${book.name}+','+${book.name}+'最新章节,'+${book.name}+'免费阅读,烽火中文网' ,
       description='小说'+${book.name}+'的作者是'+${book.author}+',内容讲的是'+${book.intro}">
@@ -15,7 +15,7 @@
 </div>
 <div class="breadcrumb">
     <div class="row"><a href="/">首页</a>›<a th:href="'/category/'+${book.categoryId}+'_1.html'"
-                                                th:text="${category.name}"></a>›《<a
+                                           th:text="${category.name}"></a>›《<a
             th:href="'/book/'+${book.id}+'.html'" th:text="${book.name}"><%= book.name %></a>》›目录
     </div>
 </div>
@@ -29,21 +29,36 @@
             <div class="pic_txt_list">
                 <div class="pic">
                     <img src="/images/holder.jpg" class="lazyload" onerror="bindImage(this)"
-                                      th:data-src="${book.thumb}" th:alt="${book.name}"/>
+                         th:data-src="${book.thumb}" th:alt="${book.name}"/>
                 </div>
                 <h3><span th:text="${book.name}"></span></h3>
                 <p class="info">作者: <span class="author" th:text="${book.author}"></span></p>
                 <p class="info">类别: <span th:text="${category.name}"></span></p>
                 <p class="info">状态: <span th:text="${book.status!=2?'连载':'完结'}"></span></p>
             </div>
-            <p class="description" th:text="'&nbsp;&nbsp;&nbsp;&nbsp;'+${book.intro.trim()}"></p>
+            <p class="description" th:text="'&nbsp;&nbsp;&nbsp;&nbsp;'+${book.intro?.trim()}"></p>
         </div>
+
         <div class="box">
-            <h2 class="title"><span>正文章节</span></h2>
+            <h2 class="title">
+                <span>更多推荐</span>
+            </h2>
+            <ul class="list2"
+                th:with="topBooks=${bookService.getRandTocBook(category.id,10)}">
+                <li th:each="topBook,bookStat:${topBooks}">
+                    <a th:href="'/book/'+${topBook.id}+'.html'"
+                       th:text="${topBook.name}"></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="box">
+            <h2 class="title"><span th:text="'《'+${book.name}+'》正文章节'"></span></h2>
             <ul class="list">
 
                 <li class="c3" th:each="chapter,chapterStat:${chapters}">
-                    <a th:href="'/read/'+${chapter.bookId}+'/'+${chapter.id}+'.html'"><span th:text="${chapter.name}"></span></a>
+                    <a th:href="'/read/'+${chapter.bookId}+'/'+${chapter.id}+'.html'"><span
+                            th:text="${chapter.name}"></span></a>
                 </li>
             </ul>
             <div class="c"></div>

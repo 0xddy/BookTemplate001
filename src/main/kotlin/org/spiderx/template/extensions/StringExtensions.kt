@@ -26,31 +26,31 @@ fun String.gzip(): ByteArray {
 }
 
 fun ByteArray.unzip(): String {
-    var retStr = ""
-    val byteArrayOutputStream = ByteArrayOutputStream()
-    val byteArrayInputStream = ByteArrayInputStream(this)
 
-    runCatching {
-        val gzipInputStream = GZIPInputStream(byteArrayInputStream)
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    var byteArrayInputStream: ByteArrayInputStream? = null
+    var gzipInputStream: GZIPInputStream? = null
+
+    return runCatching {
+        byteArrayInputStream = ByteArrayInputStream(this)
+        gzipInputStream = GZIPInputStream(byteArrayInputStream)
         val buffer = ByteArray(256)
         var len: Int
-        while ((gzipInputStream.read(buffer).apply {
+        while ((gzipInputStream!!.read(buffer).apply {
                 len = this
             }) >= 0) {
             byteArrayOutputStream.write(buffer, 0, len);
         }
+        byteArrayOutputStream.toString("utf-8")
 
-        retStr = byteArrayOutputStream.toString("utf-8")
-
-        gzipInputStream.close()
-        byteArrayInputStream.close()
+    }.getOrDefault("").apply {
+        gzipInputStream?.close()
+        gzipInputStream = null
+        byteArrayInputStream?.close()
+        byteArrayInputStream = null
         byteArrayOutputStream.close()
-
-    }.onFailure {
-        it.printStackTrace()
     }
 
-    return retStr
 }
 
 fun String.md5Encode(): String {

@@ -17,7 +17,7 @@ open class BookV0 {
 
     companion object {
 
-        val regex = Regex("<[^>]+>")
+        private val regex = Regex("<[^>]+>")
 
         fun fromDbStoreBook(dbStoreBook: DbStoreBook, thumbHost: String? = ""): BookV0 {
             return BookV0().apply {

@@ -7,4 +7,5 @@ import org.spiderx.template.model.vpo.BookVP0
 
 interface IBookService : IService<DbStoreBook> {
     fun getBookById(id: Long): BookVP0
+    fun getRandBook(category: Int?, size: Int): List<DbStoreBook>
 }

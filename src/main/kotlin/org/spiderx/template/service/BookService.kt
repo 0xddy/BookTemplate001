@@ -22,8 +22,19 @@ class BookService {
     lateinit var iBookService: IBookService
 
     fun getTopBook(ids: Collection<Int>): List<BookV0> {
-        println(ids)
         return getTopBook(ids, null)
+    }
+
+    fun getRandTocBook(category: Int?, size: Int = 10): List<BookV0> {
+        return iBookService.getRandBook(category, size).map {
+            BookV0.fromDbStoreBook(it, thumbHost)
+        }
+    }
+
+    fun getRandTocBook(): List<BookV0> {
+        return iBookService.getRandBook(null, 10).map {
+            BookV0.fromDbStoreBook(it, thumbHost)
+        }
     }
 
     fun getTopBook(ids: Collection<Int>, category: Int?): List<BookV0> {

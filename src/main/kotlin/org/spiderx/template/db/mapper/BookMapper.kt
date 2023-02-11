@@ -1,8 +1,6 @@
 package org.spiderx.template.db.mapper
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
-import com.baomidou.mybatisplus.core.metadata.IPage
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import org.apache.ibatis.annotations.Select
 import org.spiderx.template.model.DbStoreBook
 import org.spiderx.template.model.DbStoreCategory
@@ -34,4 +32,18 @@ interface BookMapper : BaseMapper<DbStoreBook> {
     )
     fun getBookById(id: Long): BookVP0
 
+    @Select(
+        """
+            <script>
+                SELECT * FROM ${DbStoreBook.TABLE_NAME}
+                <where>
+                    <if test="category != null">
+                        ${DbStoreBook.Table.CATEGORY_ID} = #{category} 
+                    </if>
+                </where> 
+                ORDER BY RAND() LIMIT #{size}
+            </script>
+        """
+    )
+    fun getRandBook(category: Int?, size: Int = 10): List<DbStoreBook>
 }

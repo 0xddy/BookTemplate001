@@ -682,7 +682,7 @@ ul.list2 li a.current {
     color: #666;
     font-size: 14px;
     padding: 0 20px;
-    margin: 0 0 0 0;
+    margin: 0 10px 0 0;
     line-height: 150%;
     text-align: left;
     overflow: hidden;

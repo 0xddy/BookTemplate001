@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ch" xmlns:th="http://www.thymeleaf.org">
-<head th:include="inc/header::head('烽火小说网_无弹窗书友最值得收藏的网络小说阅读网','烽火小说网,烽火中文网,免费小说阅读,全本小说下载','《烽火小说网》提供免费全本小说阅读,是最值得收藏的网络小说阅读网站')"></head>
+<head th:include="inc/header::head('烽火中文网_书友最值得收藏的无弹窗全本小说阅读网','烽火中文网,烽火小说网,免费小说阅读,全本小说下载','《烽火中文网》提供免费全本小说阅读,是最值得收藏的网络小说阅读网站')"></head>
 
 <body th:with="Collections=${T(kotlin.collections.CollectionsKt)}">
 
@@ -36,7 +36,7 @@
                 <span>推荐小说</span>
             </h2>
             <ul class="list2"
-                th:with="topBooks=${bookService.getTopBook(Collections.listOf(548933,140060,150821,164604,343530,141916))}">
+                th:with="topBooks=${bookService.getTopBook(Collections.listOf(548933,140060,150821,164604,505177,141916))}">
                 <li th:each="topBook,bookStat:${topBooks}">
                     <a th:href="'/book/'+${topBook.id}+'.html'"
                        th:text="${topBook.name}"></a>
